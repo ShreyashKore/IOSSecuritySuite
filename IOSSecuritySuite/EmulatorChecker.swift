@@ -8,8 +8,8 @@
 
 import Foundation
 
-internal class EmulatorChecker {
-  static func amIRunInEmulator() -> Bool {
+@objc public class EmulatorChecker: NSObject {
+  @objc public static func amIRunInEmulator() -> Bool {
     return checkCompile() || checkRuntime()
   }
 

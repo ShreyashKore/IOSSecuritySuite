@@ -8,9 +8,9 @@
 
 import Foundation
 
-internal class ModesChecker {
+@objc public class ModesChecker: NSObject {
   
-  static func amIInLockdownMode() -> Bool {
+  @objc public static func amIInLockdownMode() -> Bool {
     return UserDefaults.standard.bool(forKey: "LDMGlobalEnabled")
   }
   

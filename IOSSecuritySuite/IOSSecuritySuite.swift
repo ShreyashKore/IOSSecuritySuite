@@ -12,7 +12,7 @@ import MachO
 
 /// Main class that encompasses library functionalities
 @available(iOSApplicationExtension, unavailable)
-public class IOSSecuritySuite {
+@objc public class IOSSecuritySuite: NSObject {
   /// This type method is used to determine the true/false jailbreak status
   ///
   /// Usage example
@@ -21,7 +21,7 @@ public class IOSSecuritySuite {
   /// ```
   ///
   /// - Returns: Bool indicating if the device has jailbreak (true) or not (false)
-  public static func amIJailbroken() -> Bool {
+  @objc public static func amIJailbroken() -> Bool {
     return JailbreakChecker.amIJailbroken()
   }
   
@@ -39,7 +39,7 @@ public class IOSSecuritySuite {
   /// ```
   ///
   /// - Returns: Tuple with with the jailbreak status (Bool) and failMessage (String)
-  public static func amIJailbrokenWithFailMessage() -> (jailbroken: Bool, failMessage: String) {
+  @objc public static func amIJailbrokenWithFailMessage() -> (jailbroken: Bool, failMessage: String) {
     return JailbreakChecker.amIJailbrokenWithFailMessage()
   }
   
@@ -55,7 +55,7 @@ public class IOSSecuritySuite {
   /// ```
   ///
   /// - Returns: Tuple with with the jailbreak status (Bool) and a list of ``FailedCheckType``
-  public static func amIJailbrokenWithFailedChecks() -> (jailbroken: Bool,
+  @objc public static func amIJailbrokenWithFailedChecks() -> (jailbroken: Bool,
                                                          failedChecks: [FailedCheckType]) {
     return JailbreakChecker.amIJailbrokenWithFailedChecks()
   }
@@ -67,7 +67,7 @@ public class IOSSecuritySuite {
   /// let runInEmulator: Bool = IOSSecuritySuite.amIRunInEmulator()
   /// ```
   /// - Returns: Bool indicating if the device is an emulator (true) or not (false)
-  public static func amIRunInEmulator() -> Bool {
+  @objc public static func amIRunInEmulator() -> Bool {
     return EmulatorChecker.amIRunInEmulator()
   }
   
@@ -78,7 +78,7 @@ public class IOSSecuritySuite {
   /// let amIDebugged: Bool = IOSSecuritySuite.amIDebugged()
   /// ```
   /// - Returns: Bool indicating if the device is being debugged (true) or not (false)
-  public static func amIDebugged() -> Bool {
+  @objc public static func amIDebugged() -> Bool {
     return DebuggerChecker.amIDebugged()
   }
   
@@ -88,7 +88,7 @@ public class IOSSecuritySuite {
   /// ```swift
   /// IOSSecuritySuite.denyDebugger()
   /// ```
-  public static func denyDebugger() {
+  @objc public static func denyDebugger() {
     return DebuggerChecker.denyDebugger()
   }
   
@@ -100,7 +100,7 @@ public class IOSSecuritySuite {
   /// let isNotLaunchD: Bool = IOSSecuritySuite.isParentPidUnexpected()
   /// ```
   /// - Returns: Bool indicating if application was launched by something other than LaunchD (true) or not (false)
-  public static func isParentPidUnexpected() -> Bool {
+  @objc public static func isParentPidUnexpected() -> Bool {
     return DebuggerChecker.isParentPidUnexpected()
   }
   
@@ -120,7 +120,7 @@ public class IOSSecuritySuite {
   ///
   /// - Parameter checks: The file Integrity checks you want
   /// - Returns: The file Integrity checker result
-  public static func amITampered(_ checks: [FileIntegrityCheck]) -> FileIntegrityCheckResult {
+  @objc public static func amITampered(_ checks: [FileIntegrityCheck]) -> FileIntegrityCheckResult {
     return IntegrityChecker.amITampered(checks)
   }
   
@@ -131,7 +131,7 @@ public class IOSSecuritySuite {
   /// let amIReverseEngineered: Bool = IOSSecuritySuite.amIReverseEngineered()
   /// ```
   /// - Returns: Bool indicating if device has reverse engineering tools (true) or not (false)
-  public static func amIReverseEngineered() -> Bool {
+  @objc public static func amIReverseEngineered() -> Bool {
     return ReverseEngineeringToolsChecker.amIReverseEngineered()
   }
   
@@ -147,7 +147,7 @@ public class IOSSecuritySuite {
   /// ```
   ///
   /// - Returns: Tuple with with the reverse engineered status (Bool) and a list of ``FailedCheckType``
-  public static func amIReverseEngineeredWithFailedChecks() -> (reverseEngineered: Bool,
+  @objc public static func amIReverseEngineeredWithFailedChecks() -> (reverseEngineered: Bool,
                                                                 failedChecks: [FailedCheckType]) {
     return ReverseEngineeringToolsChecker.amIReverseEngineeredWithFailedChecks()
   }
@@ -175,7 +175,7 @@ public class IOSSecuritySuite {
     *, deprecated,
      renamed: "amIRuntimeHooked(dyldAllowList:detectionClass:selector:isClassMethod:)"
   )
-  public static func amIRuntimeHooked(
+  @objc public static func amIRuntimeHooked(
     dyldWhiteList: [String],
     detectionClass: AnyClass,
     selector: Selector,
@@ -208,7 +208,7 @@ public class IOSSecuritySuite {
   /// ```
   ///
   /// - Returns: Bool indicating if the method is being hooked (true) or not (false)
-  public static func amIRuntimeHooked(
+  @objc public static func amIRuntimeHooked(
     dyldAllowList: [String],
     detectionClass: AnyClass,
     selector: Selector,
@@ -229,7 +229,7 @@ public class IOSSecuritySuite {
   /// let amIProxied: Bool = IOSSecuritySuite.amIProxied()
   /// ```
   /// - Returns: Bool indicating if the device has a proxy setted (true) or not (false)
-  public static func amIProxied() -> Bool {
+  @objc public static func amIProxied() -> Bool {
     return ProxyChecker.amIProxied()
   }
   
@@ -241,7 +241,7 @@ public class IOSSecuritySuite {
   /// ```
   /// - Returns: Bool indicating if the device has lockdown mode turned on (true) or not (false)
   @available(iOS 16, *)
-  public static func amIInLockdownMode() -> Bool {
+  @objc public static func amIInLockdownMode() -> Bool {
     return ModesChecker.amIInLockdownMode()
   }
 }
@@ -262,7 +262,7 @@ public extension IOSSecuritySuite {
   /// let amIMSHookFunction: Bool = amIMSHookFunction(func_addr)
   /// ```
   /// - Returns: Bool indicating if the function has been hooked (true) or not (false)
-  static func amIMSHooked(_ functionAddress: UnsafeMutableRawPointer) -> Bool {
+  @objc public static func amIMSHooked(_ functionAddress: UnsafeMutableRawPointer) -> Bool {
     return MSHookFunctionChecker.amIMSHooked(functionAddress)
   }
   
@@ -284,7 +284,7 @@ public extension IOSSecuritySuite {
   ///   denyDebugger()
   /// }
   /// ```
-  static func denyMSHook(_ functionAddress: UnsafeMutableRawPointer) -> UnsafeMutableRawPointer? {
+  @objc public static func denyMSHook(_ functionAddress: UnsafeMutableRawPointer) -> UnsafeMutableRawPointer? {
     return MSHookFunctionChecker.denyMSHook(functionAddress)
   }
   
@@ -298,7 +298,7 @@ public extension IOSSecuritySuite {
   /// denySymbolHook("abort")
   /// abort()
   /// ```
-  static func denySymbolHook(_ symbol: String) {
+  @objc public static func denySymbolHook(_ symbol: String) {
     FishHookChecker.denyFishHook(symbol)
   }
   
@@ -316,7 +316,7 @@ public extension IOSSecuritySuite {
   ///   }
   /// }
   /// ```
-  static func denySymbolHook(
+  @objc public static func denySymbolHook(
     _ symbol: String,
     at image: UnsafePointer<mach_header>,
     imageSlide slide: Int
@@ -343,7 +343,7 @@ public extension IOSSecuritySuite {
   ///
   /// - Parameter target: The target image
   /// - Returns: A hash value of the executable file.
-  static func getMachOFileHashValue(_ target: IntegrityCheckerImageTarget = .default) -> String? {
+  @objc public static func getMachOFileHashValue(_ target: IntegrityCheckerImageTarget = .default) -> String? {
     return IntegrityChecker.getMachOFileHashValue(target)
   }
   
@@ -360,7 +360,7 @@ public extension IOSSecuritySuite {
   ///
   /// - Parameter target: The target image
   /// - Returns: An Array with all loaded dylib names
-  static func findLoadedDylibs(_ target: IntegrityCheckerImageTarget = .default) -> [String]? {
+  @objc public static func findLoadedDylibs(_ target: IntegrityCheckerImageTarget = .default) -> [String]? {
     return IntegrityChecker.findLoadedDylibs(target)
   }
   
@@ -379,7 +379,7 @@ public extension IOSSecuritySuite {
   /// let hasBreakpoint: Bool = IOSSecuritySuite.hasBreakpointAt(func_addr, functionSize: nil)
   /// ```
   /// - Returns: Bool indicating if the function has a breakpoint (true) or not (false)
-  static func hasBreakpointAt(_ functionAddr: UnsafeRawPointer, functionSize: vm_size_t?) -> Bool {
+  @objc public static func hasBreakpointAt(_ functionAddr: UnsafeRawPointer, functionSize: vm_size_t?) -> Bool {
     return DebuggerChecker.hasBreakpointAt(functionAddr, functionSize: functionSize)
   }
   
@@ -398,7 +398,7 @@ public extension IOSSecuritySuite {
   /// }
   /// ```
   /// - Returns: Bool indicating if has a watchpoint setted (true) or not (false)
-  static func hasWatchpoint() -> Bool {
+  @objc public static func hasWatchpoint() -> Bool {
     return DebuggerChecker.hasWatchpoint()
   }
 }

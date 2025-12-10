@@ -45,9 +45,9 @@ extension FileIntegrityCheck: Explainable {
 /// Tuple with the result of integrity checks and a list of failed checks
 public typealias FileIntegrityCheckResult = (result: Bool, hitChecks: [FileIntegrityCheck])
 
-internal class IntegrityChecker {
+@objc public class IntegrityChecker: NSObject {
   // Check if the application has been tampered with the specified checks
-  static func amITampered(_ checks: [FileIntegrityCheck]) -> FileIntegrityCheckResult {
+  @objc public static func amITampered(_ checks: [FileIntegrityCheck]) -> FileIntegrityCheckResult {
     var hitChecks: [FileIntegrityCheck] = []
     var result = false
     
@@ -130,7 +130,7 @@ public enum IntegrityCheckerImageTarget {
 
 extension IntegrityChecker {
   // Get hash value of Mach-O "__TEXT.__text" data with a specified image target
-  static func getMachOFileHashValue(_ target: IntegrityCheckerImageTarget = .default) -> String? {
+  @objc public static func getMachOFileHashValue(_ target: IntegrityCheckerImageTarget = .default) -> String? {
     switch target {
     case .custom(let imageName):
       return MachOParse(imageName: imageName).getTextSectionDataSHA256Value()
@@ -140,7 +140,7 @@ extension IntegrityChecker {
   }
   
   // Find loaded dylib with a specified image target
-  static func findLoadedDylibs(_ target: IntegrityCheckerImageTarget = .default) -> [String]? {
+  @objc public static func findLoadedDylibs(_ target: IntegrityCheckerImageTarget = .default) -> [String]? {
     switch target {
     case .custom(let imageName):
       return MachOParse(imageName: imageName).findLoadedDylibs()

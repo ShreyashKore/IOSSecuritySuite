@@ -9,7 +9,7 @@
 import Foundation
 import MachO // dyld
 
-internal class ReverseEngineeringToolsChecker {
+@objc public class ReverseEngineeringToolsChecker: NSObject {
   typealias CheckResult = (passed: Bool, failMessage: String)
   
   struct ReverseEngineeringToolsStatus {
@@ -17,11 +17,11 @@ internal class ReverseEngineeringToolsChecker {
     let failedChecks: [FailedCheckType]
   }
   
-  static func amIReverseEngineered() -> Bool {
+  @objc public static func amIReverseEngineered() -> Bool {
     return !performChecks().passed
   }
   
-  static func amIReverseEngineeredWithFailedChecks() -> (reverseEngineered: Bool,
+  @objc public static func amIReverseEngineeredWithFailedChecks() -> (reverseEngineered: Bool,
                                                          failedChecks: [FailedCheckType]) {
     let status = performChecks()
     return (!status.passed, status.failedChecks)

@@ -9,14 +9,14 @@
 import Foundation
 import MachO
 
-internal class RuntimeHookChecker {
+@objc public class RuntimeHookChecker: NSObject {
   static private let swiftOnceDenyFishHooK: Void = {
 #if arch(arm64)
     FishHookChecker.denyFishHook("dladdr")
 #endif
   }()
   
-  static func amIRuntimeHook(
+  @objc public static func amIRuntimeHook(
     dyldAllowList: [String],
     detectionClass: AnyClass,
     selector: Selector,

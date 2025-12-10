@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal class FileChecker {
+@objc public class FileChecker: NSObject {
   typealias CheckResult = (passed: Bool, failMessage: String)
   
   /**
@@ -152,7 +152,7 @@ internal class FileChecker {
    - mode: Determines if the file will be opened in Writable or Read-Only mode.
    - returns: Returns nil, if the file does not exist. Returns true if it can be opened with the given mode.
    */
-  static func checkExistenceOfSuspiciousFilesViaFOpen(path: String,
+  @objc public static func checkExistenceOfSuspiciousFilesViaFOpen(path: String,
                                                       mode: FileMode) -> CheckResult? {
     // the 'a' or 'w' modes, create the file if it does not exist.
     let mode: String = FileMode.writable == mode ? "r+" : "r"
@@ -169,7 +169,7 @@ internal class FileChecker {
    Uses stat() to check if a file exists.
    - returns: Returns nil, if stat() returns a non-zero result code.
    */
-  static func checkExistenceOfSuspiciousFilesViaStat(path: String) -> CheckResult? {
+  @objc public static func checkExistenceOfSuspiciousFilesViaStat(path: String) -> CheckResult? {
     var statbuf: stat = stat()
     let resultCode = stat((path as NSString).fileSystemRepresentation, &statbuf)
     
@@ -187,7 +187,7 @@ internal class FileChecker {
    - mode: Determines if the file will be accessed in Write mode or Read-Only mode.
    - returns: Returns nil, if access() returns a non-zero result code.
    */
-  static func checkExistenceOfSuspiciousFilesViaAccess(
+  @objc public static func checkExistenceOfSuspiciousFilesViaAccess(
     path: String,
     mode: FileMode
   ) -> CheckResult? {
@@ -207,7 +207,7 @@ internal class FileChecker {
    Checks if statvfs() considers the given path to be Read-Only.
    - Returns: Returns nil, if statvfs() gives a non-zero result.
    */
-  static func checkRestrictedPathIsReadonlyViaStatvfs(
+  @objc public static func checkRestrictedPathIsReadonlyViaStatvfs(
     path: String,
     encoding: String.Encoding = .utf8
   ) -> Bool? {
@@ -230,7 +230,7 @@ internal class FileChecker {
    Checks if statvs() considers the volume associated with given path to be Read-Only.
    - Returns: Returns nil, if statfs() does not find the mounted volume.
    */
-  static func checkRestrictedPathIsReadonlyViaStatfs(
+  @objc public static func checkRestrictedPathIsReadonlyViaStatfs(
     path: String,
     encoding: String.Encoding = .utf8
   ) -> Bool? {
@@ -243,7 +243,7 @@ internal class FileChecker {
    - name: The filesystem name or mounted directory name to search for.
    - Returns: Returns nil, if a matching mounted volume is not found.
    */
-  static func checkRestrictedPathIsReadonlyViaGetfsstat(name: String) -> Bool? {
+  @objc public static func checkRestrictedPathIsReadonlyViaGetfsstat(name: String) -> Bool? {
     return self.getMountedVolumesViaGetfsstat(withName: name)?.isReadOnly
   }
 }

@@ -13,7 +13,7 @@ import Darwin // fork
 import MachO // dyld
 import ObjectiveC // NSObject and Selector
 
-internal class JailbreakChecker {
+@objc public class JailbreakChecker: NSObject {
   typealias CheckResult = (passed: Bool, failMessage: String)
   
   struct JailbreakStatus {
@@ -22,16 +22,16 @@ internal class JailbreakChecker {
     let failedChecks: [FailedCheckType]
   }
   
-  static func amIJailbroken() -> Bool {
+  @objc public static func amIJailbroken() -> Bool {
     return !performChecks().passed
   }
   
-  static func amIJailbrokenWithFailMessage() -> (jailbroken: Bool, failMessage: String) {
+  @objc public static func amIJailbrokenWithFailMessage() -> (jailbroken: Bool, failMessage: String) {
     let status = performChecks()
     return (!status.passed, status.failMessage)
   }
   
-  static func amIJailbrokenWithFailedChecks() -> (jailbroken: Bool,
+  @objc public static func amIJailbrokenWithFailedChecks() -> (jailbroken: Bool,
                                                   failedChecks: [FailedCheckType]) {
     let status = performChecks()
     return (!status.passed, status.failedChecks)

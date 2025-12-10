@@ -8,8 +8,8 @@
 
 import Foundation
 
-internal class ProxyChecker {
-    static func amIProxied(considerVPNConnectionAsProxy: Bool = false) -> Bool {
+@objc public class ProxyChecker: NSObject {
+    @objc public static func amIProxied(considerVPNConnectionAsProxy: Bool = false) -> Bool {
         guard let unmanagedSettings = CFNetworkCopySystemProxySettings() else {
             return false
         }

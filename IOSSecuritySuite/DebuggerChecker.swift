@@ -8,9 +8,9 @@
 
 import Foundation
 
-internal class DebuggerChecker {
+@objc public class DebuggerChecker: NSObject {
   // https://developer.apple.com/library/archive/qa/qa1361/_index.html
-  static func amIDebugged() -> Bool {
+  @objc public static func amIDebugged() -> Bool {
     var kinfo = kinfo_proc()
     var mib: [Int32] = [CTL_KERN, KERN_PROC, KERN_PROC_PID, getpid()]
     var size = MemoryLayout<kinfo_proc>.stride
@@ -23,7 +23,7 @@ internal class DebuggerChecker {
     return (kinfo.kp_proc.p_flag & P_TRACED) != 0
   }
   
-  static func denyDebugger() {
+  @objc public static func denyDebugger() {
     // bind ptrace()
     let pointerToPtrace = UnsafeMutableRawPointer(bitPattern: -2)
     let ptracePtr = dlsym(pointerToPtrace, "ptrace")
@@ -39,7 +39,7 @@ internal class DebuggerChecker {
   }
   
 #if arch(arm64)
-  static func hasBreakpointAt(
+  @objc public static func hasBreakpointAt(
     _ functionAddr: UnsafeRawPointer,
     functionSize: vm_size_t?
   ) -> Bool {
@@ -96,7 +96,7 @@ internal class DebuggerChecker {
     return false
   }
   
-  static func hasWatchpoint() -> Bool {
+  @objc public static func hasWatchpoint() -> Bool {
     var threads: thread_act_array_t?
     var threadCount: mach_msg_type_number_t = 0
     var hasWatchpoint = false
@@ -140,7 +140,7 @@ internal class DebuggerChecker {
   }
 #endif
   
-  static func isParentPidUnexpected() -> Bool {
+  @objc public static func isParentPidUnexpected() -> Bool {
     let parentPid: pid_t = getppid()
     
     return parentPid != 1 // LaunchD is pid 1

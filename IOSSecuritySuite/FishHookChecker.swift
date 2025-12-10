@@ -108,9 +108,9 @@ private func readSleb128(ptr: inout UnsafeMutablePointer<UInt8>, end: UnsafeMuta
   return result
 }
 
-internal class FishHookChecker {
+@objc public class FishHookChecker: NSObject {
   @inline(__always)
-  static func denyFishHook(_ symbol: String) {
+  @objc public static func denyFishHook(_ symbol: String) {
     for imgIndex in 0..<_dyld_image_count() {
       if let image = _dyld_get_image_header(imgIndex) {
         denyFishHook(symbol, at: image, imageSlide: _dyld_get_image_vmaddr_slide(imgIndex))
@@ -119,7 +119,7 @@ internal class FishHookChecker {
   }
   
   @inline(__always)
-  static func denyFishHook(_ symbol: String, at image: UnsafePointer<mach_header>, imageSlide slide: Int) {
+  @objc public static func denyFishHook(_ symbol: String, at image: UnsafePointer<mach_header>, imageSlide slide: Int) {
     var symbolAddress: UnsafeMutableRawPointer?
     
     if SymbolFound.lookSymbol(symbol, at: image, imageSlide: slide, symbolAddress: &symbolAddress), let symbolPointer = symbolAddress {
@@ -130,11 +130,11 @@ internal class FishHookChecker {
 }
 
 // MARK: - SymbolFound
-internal class SymbolFound {
+@objc public class SymbolFound: NSObject {
   static private let BindTypeThreadedRebase = 102
   
   @inline(__always)
-  static func lookSymbol(_ symbol: String, at image: UnsafePointer<mach_header>, imageSlide slide: Int, symbolAddress: inout UnsafeMutableRawPointer?) -> Bool {
+  @objc public static func lookSymbol(_ symbol: String, at image: UnsafePointer<mach_header>, imageSlide slide: Int, symbolAddress: inout UnsafeMutableRawPointer?) -> Bool {
     // target cmd
     var linkeditCmd: UnsafeMutablePointer<segment_command_64>!
     var dyldInfoCmd: UnsafeMutablePointer<dyld_info_command>!

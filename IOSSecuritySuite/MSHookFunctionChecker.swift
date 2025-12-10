@@ -69,7 +69,7 @@ import Foundation
  */
 
 #if arch(arm64)
-internal class MSHookFunctionChecker {
+@objc public class MSHookFunctionChecker: NSObject {
   // come from ARM® Architecture Reference Manual, ARMv8 for ARMv8-A architecture profile
   private enum MSHookInstruction {
     case ldr_x16
@@ -162,7 +162,7 @@ internal class MSHookFunctionChecker {
   }
   
   @inline(__always)
-  static func amIMSHooked(_ functionAddr: UnsafeMutableRawPointer) -> Bool {
+  @objc public static func amIMSHooked(_ functionAddr: UnsafeMutableRawPointer) -> Bool {
     guard let firstInstruction = MSHookInstruction.translateInstruction(at: functionAddr) else {
       return false
     }
@@ -187,7 +187,7 @@ internal class MSHookFunctionChecker {
   }
   
   @inline(__always)
-  static func denyMSHook(_ functionAddr: UnsafeMutableRawPointer) -> UnsafeMutableRawPointer? {
+  @objc public static func denyMSHook(_ functionAddr: UnsafeMutableRawPointer) -> UnsafeMutableRawPointer? {
     if !amIMSHooked(functionAddr) {
       return nil
     }
